@@ -1,0 +1,6 @@
+---
+- include_tasks: cni.yml
+
+- include_tasks: crictl.yml
+
+- include_tasks: kubernetes_binaries.yml

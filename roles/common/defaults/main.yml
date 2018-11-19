@@ -1,0 +1,29 @@
+---
+systemd_units_dir: /etc/systemd/system/
+systemd_kubeadm_dir: "{{ systemd_units_dir }}/kubelet.service.d"
+
+kubelet_systemd_dropin_file: "{{ systemd_units_dir }}/kubelet.service"
+kubeadm_systemd_dropin_file: "{{ systemd_units_dir }}/kubelet.service.d/10-kubeadm.conf"
+
+cni_bin_dir: /opt/cni/bin
+cni_conf_dir: /etc/cni/net.d
+
+cni_version: v0.6.0
+cni_release_url: https://github.com/containernetworking/cni/releases/download/{{ cni_version }}/cni-amd64-{{ cni_version }}.tgz
+
+cni_plugins_version: v0.7.1
+cni_plugins_release_url: https://github.com/containernetworking/plugins/releases/download/{{ cni_plugins_version }}/cni-plugins-amd64-{{ cni_plugins_version }}.tgz
+
+crictl_bin_dir: /opt/bin
+
+crictl_version: v1.11.1
+crictl_release_url: https://github.com/kubernetes-incubator/cri-tools/releases/download/{{ crictl_version }}/crictl-{{ crictl_version }}-linux-amd64.tar.gz
+
+kubernetes_bin_dir: /opt/bin
+
+kubernetes_version: v1.12.2
+kubernetes_binaries_url: "https://storage.googleapis.com/kubernetes-release/release/{{ kubernetes_version }}/bin/linux/amd64"
+kubernetes_binaries:
+  - kubeadm
+  - kubectl
+  - kubelet

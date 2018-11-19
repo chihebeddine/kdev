@@ -1,0 +1,4 @@
+---
+- include_tasks: bootstrap-coreos.yml
+
+- include_tasks: setup-pipelining.yml

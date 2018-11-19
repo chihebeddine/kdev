@@ -1,0 +1,9 @@
+---
+- name: CRICTL | Ensure CRICTL directories exist
+  file: path={{ crictl_bin_dir }} state=directory
+
+- name: CRICTL | Download binaries
+  unarchive:
+    src: "{{ crictl_release_url }}"
+    dest: "{{ crictl_bin_dir }}"
+    remote_src: yes

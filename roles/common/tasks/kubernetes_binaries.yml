@@ -1,0 +1,31 @@
+---
+- name: Kubernetes | Ensure Kubernetes directories exist
+  file: path={{ kubernetes_bin_dir }} state=directory
+
+- name: Kubernetes | Ensure systemd dropin dirs exist
+  file: path={{ systemd_kubeadm_dir }} state=directory recurse=yes
+
+- name: Kubernetes | Get Kubernetes binaries
+  get_url:
+    url: "{{ kubernetes_binaries_url }}/{{ item }}"
+    mode: 0755
+    dest: "{{ bin_dir }}/{{ item }}"
+    force: yes
+  with_items: "{{ kubernetes_binaries }}"
+
+- name: Kubernetes | Copy Kubelet systemd file
+  template:
+    src: kubelet.service
+    dest: "{{ kubelet_systemd_dropin_file }}"
+
+- name: Kubernetes | Copy Kubeadm drop-in file
+  template:
+    src: 10-kubeadm.conf
+    dest: "{{ kubeadm_systemd_dropin_file }}"
+  notify: "restart kubelet"
+
+- name: Kubernetes | Ensure Kubelet is enabled and running
+  systemd:
+    state: started
+    name: kubelet.service
+    enabled: yes
