@@ -1,0 +1,46 @@
+---
+apiVersion: kubeadm.k8s.io/v1alpha1
+kind: MasterConfiguration
+api:
+  advertiseAddress: 0.0.0.0
+  bindPort: 6443
+etcd:
+  local:
+    extraArgs:
+      name: "{{ inventory_hostname }}"
+      listen-client-urls: "https://127.0.0.1:2379,https://{{ ansible_env.COREOS_PRIVATE_IPV4 }}:2379"
+      advertise-client-urls: "https://{{ ansible_env.COREOS_PRIVATE_IPV4 }}:2379"
+      listen-peer-urls: "https://{{ ansible_env.COREOS_PRIVATE_IPV4 }}:2380"
+      initial-advertise-peer-urls: "https://{{ ansible_env.COREOS_PRIVATE_IPV4 }}:2380"
+      {% for host in groups['master'] -%}
+      {% if loop.first %}initial-cluster: "{% endif %}{{ hostvars[host].inventory_hostname }}=https://{{ hostvars[host].ansible_env.COREOS_PRIVATE_IPV4 }}:2380{% if not loop.last %},{% else %}"{% endif %}
+      {%- endfor %}
+
+      {% if (etcd_health is defined) and (kubernetes_control_plane_local.rc == 2) %}initial-cluster-state: existing{% endif %}
+
+    serverCertSANs:
+      - {{ ansible_hostname }}
+      - {{ ansible_fqdn }}
+      - {{ inventory_hostname }}
+      - {{ ansible_env.COREOS_PRIVATE_IPV4 }}
+      - {{ ansible_env.COREOS_PUBLIC_IPV4 }}
+    peerCertSANs:
+      - {{ ansible_hostname }}
+      - {{ ansible_fqdn }}
+      - {{ inventory_hostname }}
+      - {{ ansible_env.COREOS_PRIVATE_IPV4 }}
+      - {{ ansible_env.COREOS_PUBLIC_IPV4 }}
+networking:
+  dnsDomain: {% if dns_domain is defined %}{{ dns_domain }}{% else %}cluster.local{% endif %}
+  serviceSubnet: "{{ service_subnet }}"
+  podSubnet: "{{ pod_subnet }}"
+kubernetesVersion: "{{ kubernetes_version }}"
+{% if cloud_provider is defined }
+cloudProvider: "{{ cloud_provider }}"
+apiServerCertSANs:
+- {{ ansible_env.COREOS_PUBLIC_IPV4 }}
+- {{ ansible_hostname }}
+- {{ ansible_fqdn }}
+- {{ inventory_hostname }}
+- {{ ansible_env.COREOS_PRIVATE_IPV4 }}
+- {{ ansible_env.COREOS_PUBLIC_IPV4 }}

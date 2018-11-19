@@ -1,0 +1,11 @@
+---
+bin_dir: /opt/bin
+
+kubernetes_version: v1.12.2
+
+cri_socket: /var/run/dockershim.sock
+
+kubeadm_config_dirs:
+  - /etc/kubernetes
+  - /etc/kubernetes/pki
+  - /etc/kubernetes/pki/etcd

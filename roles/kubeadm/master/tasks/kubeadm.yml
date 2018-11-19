@@ -1,0 +1,26 @@
+---
+- name: Kubeadm | Master | Ensure kubeadm required directories exist
+  file: path={{ item }} state=directory
+  with_items:
+    - {{ kubeadm_config_dirs }}
+
+- name: Kubeadm | Master | Copy kubeadm init config file
+  template:
+    src: kubeadm-config.yml.j2
+    dest: "{{ }}kubeadm-config.yaml"
+
+- include_tasks: phase_certs.yml
+
+- include_tasks: phase_config.yml
+
+- include_tasks: phase_controlplane.yml
+
+- include_tasks: phase_etcd.yml
+
+- include_tasks: phase_tokens.yml
+
+- include_tasks: phase_config_upload.yml
+
+- include_tasks: phase_mark_master.yml
+
+- include_tasks: phase_addons.yml
