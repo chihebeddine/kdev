@@ -1,4 +1,11 @@
 ---
+
+- name: Kubernetes | Ensure docker is enabled and running
+  systemd:
+    state: started
+    name: docker.service
+    enabled: yes
+
 - include_tasks: cni.yml
 
 - include_tasks: crictl.yml

@@ -16,7 +16,7 @@
 - name: Kubernetes | Copy Kubelet systemd file
   template:
     src: kubelet.service
-    dest: "{{ kubelet_systemd_dropin_file }}"
+    dest: "{{ kubelet_systemd_unit_file }}"
 
 - name: Kubernetes | Copy Kubeadm drop-in file
   template:

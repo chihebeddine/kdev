@@ -1,0 +1,6 @@
+---
+
+- include_task: check.yml
+
+- include_task: kubeadm.yml
+  when: ansible_fqdn not in nodes.stdout

@@ -1,0 +1,9 @@
+---
+
+kubeadm_config_dirs:
+  - /etc/kubernetes
+  - /etc/kubernetes/pki
+  - /etc/kubernetes/pki/etcd
+  - /etc/kubernetes/manifests
+
+nginx_proxy_conf_dir: /etc/nginx

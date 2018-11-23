@@ -1,0 +1,16 @@
+---
+apiEndpoint:
+  advertiseAddress: {{ ansible_env.COREOS_PRIVATE_IPV4 }}
+  bindPort: 6443
+apiVersion: kubeadm.k8s.io/v1alpha3
+caCertPath: /etc/kubernetes/pki/ca.crt
+clusterName: kubernetes
+discoveryTokenUnsafeSkipCAVerification: true
+discoveryTokenAPIServers:
+  - 127.0.0.1:6443
+kind: JoinConfiguration
+nodeRegistration:
+  criSocket: {{ cri_socket | default('/var/run/dockershim.sock') }}
+  name: {{ ansible_fqdn }}
+tlsBootstrapToken: 
+token: {{ kubeadm_token.stdout }}

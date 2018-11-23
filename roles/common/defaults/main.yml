@@ -2,7 +2,7 @@
 systemd_units_dir: /etc/systemd/system/
 systemd_kubeadm_dir: "{{ systemd_units_dir }}/kubelet.service.d"
 
-kubelet_systemd_dropin_file: "{{ systemd_units_dir }}/kubelet.service"
+kubelet_systemd_unit_file: "{{ systemd_units_dir }}/kubelet.service"
 kubeadm_systemd_dropin_file: "{{ systemd_units_dir }}/kubelet.service.d/10-kubeadm.conf"
 
 cni_bin_dir: /opt/cni/bin

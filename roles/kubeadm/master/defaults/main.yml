@@ -5,7 +5,12 @@ kubernetes_version: v1.12.2
 
 cri_socket: /var/run/dockershim.sock
 
+kubeadm_taint_master: true
+
 kubeadm_config_dirs:
   - /etc/kubernetes
   - /etc/kubernetes/pki
   - /etc/kubernetes/pki/etcd
+
+pod_subnet: 10.233.64.0/18
+service_subnet: 10.233.0.0/18

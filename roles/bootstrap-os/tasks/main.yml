@@ -2,3 +2,6 @@
 - include_tasks: bootstrap-coreos.yml
 
 - include_tasks: setup-pipelining.yml
+
+- include_task: update-coreos.yml
+  when: update_coreos

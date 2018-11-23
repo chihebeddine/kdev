@@ -6,4 +6,11 @@
   roles:
     - bootstrap-os
     - common
+
+- hosts: masters
+  become: true
+  gather_facts: true
+
+  roles:
+    - kubeadm/master
     
