@@ -10,7 +10,7 @@ events {
 stream {
         upstream kube_apiserver {
             least_conn;
-            {% for host in groups['master'] -%}
+            {% for host in groups['masters'] -%}
             server {{ hostvars[host].ansible_env.COREOS_PRIVATE_IPV4}}:6443;
             {% endfor %}
         }

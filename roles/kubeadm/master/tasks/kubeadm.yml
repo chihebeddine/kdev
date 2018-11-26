@@ -7,20 +7,20 @@
 - name: Kubeadm | Master | Copy kubeadm init config file
   template:
     src: kubeadm-config.yml.j2
-    dest: "{{ ansible_user_dir }}/kubeadm-config.yaml"
+    dest: "{{ kubeadm_config_dir }}/kubeadm-config.yaml"
 
-# - include_tasks: phase_certs.yml
+- include_tasks: phase_certs.yml
 
-# - include_tasks: phase_config.yml
+- include_tasks: phase_config.yml
 
-# - include_tasks: phase_controlplane.yml
+- include_tasks: phase_etcd.yml
 
-# - include_tasks: phase_etcd.yml
+- include_tasks: phase_controlplane.yml
 
-# - include_tasks: phase_tokens.yml
+- include_tasks: phase_tokens.yml
 
-# - include_tasks: phase_config_upload.yml
+- include_tasks: phase_config_upload.yml
 
-# - include_tasks: phase_mark_master.yml
+- include_tasks: phase_mark_master.yml
 
-# - include_tasks: phase_addons.yml
+- include_tasks: phase_addons.yml

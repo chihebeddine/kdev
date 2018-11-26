@@ -1,4 +1,5 @@
 ---
+kubeadm_config_dir: /root
 
 kubeadm_config_dirs:
   - /etc/kubernetes

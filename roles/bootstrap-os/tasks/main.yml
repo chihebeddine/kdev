@@ -3,5 +3,5 @@
 
 - include_tasks: setup-pipelining.yml
 
-- include_task: update-coreos.yml
-  when: update_coreos
+# - include_task: update-coreos.yml
+#   when: update_coreos

@@ -27,7 +27,7 @@ etcd:
       {% if loop.first %}initial-cluster: "{% endif %}{{ hostvars[host].ansible_fqdn }}=https://{{ hostvars[host].ansible_env.COREOS_PRIVATE_IPV4 }}:2380{% if not loop.last %},{% else %}"{% endif %}
       {%- endfor %}
 
-      {% if (etcd_health is defined) and (kubernetes_control_plane_local.rc == 2) %}initial-cluster-state: existing{% endif %}
+      {% if etcd_health is defined %}initial-cluster-state: existing{% endif %}
 
     serverCertSANs:
       - {{ ansible_hostname }}
@@ -48,22 +48,6 @@ networking:
   dnsDomain: {{ dns_domain | default('cluster.local') }}
   podSubnet: {{ pod_subnet | default('10.233.64.0/18') }}
   serviceSubnet: {{ service_subnet | default('10.233.0.0/18') }}
----
-apiEndpoint:
-  advertiseAddress: {{ ansible_env.COREOS_PRIVATE_IPV4 }}
-  bindPort: 6443
-apiVersion: kubeadm.k8s.io/v1alpha3
-caCertPath: /etc/kubernetes/pki/ca.crt
-clusterName: kubernetes
-discoveryToken: 
-discoveryTokenAPIServers:
-  - kube-apiserver:6443
-kind: JoinConfiguration
-nodeRegistration:
-  criSocket: {{ cri_socket | default('/var/run/dockershim.sock') }}
-  name: {{ ansible_fqdn }}
-tlsBootstrapToken: 
-token: 
 ---
 apiVersion: kubeproxy.config.k8s.io/v1alpha1
 bindAddress: 0.0.0.0

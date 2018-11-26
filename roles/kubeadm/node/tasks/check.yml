@@ -6,7 +6,7 @@
   environment:
     KUBECONFIG: /etc/kubernetes/admin.conf
   args:
-    chdir: "{{ kubeadm_exec_dir }}"
+    chdir: "{{ kubeadm_config_dir }}"
   register: nodes
-  delegate_to: "{{ groups['master'] | random(seed=inventory_hostname) }}"
+  delegate_to: "{{ groups['masters'] | random(seed=inventory_hostname) }}"
   changed_when: false

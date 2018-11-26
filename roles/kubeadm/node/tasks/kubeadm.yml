@@ -1,5 +1,4 @@
 ---
-
 - name: Kubeadm | Node | Make sure kubeadm dirs exist
   file: path={{ item }} state=directory
   with_items:
@@ -15,7 +14,7 @@
 - name: Kubeadm | DELEGATED TO MASTERS | Generate join token
   shell: kubeadm token create --ttl 5m
   register: kubeadm_token
-  delegate_to: "{{ groups['master'] | random(seed=inventory_hostname) }}"
+  delegate_to: "{{ groups['masters'] | random(seed=inventory_hostname) }}"
 
 - name: Kubeadm | Node | Copy kubeadm join config file
   template:
@@ -24,15 +23,15 @@
 
 - name: Kubeadm | Node | Join cluster
   command: |
-    kubeadm join --config kubeadm-config.yaml 
+    kubeadm join --config kubeadm-join-config.yaml
   args:
     chdir: "{{ ansible_user_dir }}"
 
 - name: kubeadm | DELEGATED TO MASTERS | Mark node role
-  command: kubectl label node ip-172-31-6-115.eu-west-3.compute.internal kubernetes.io/role=node
+  command: kubectl label node {{ ansible_fqdn }} kubernetes.io/role=node
   environment:
     KUBECONFIG: '/etc/kubernetes/admin.conf'
-  delegate_to: "{{ groups['master'] | random(seed=inventory_hostname) }}"
+  delegate_to: "{{ groups['masters'] | random(seed=inventory_hostname) }}"
 
 - name: Kubeadm | Node | Remove temporary Iptables rule
   shell: |

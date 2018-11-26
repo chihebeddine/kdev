@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: nodes
   become: true
   gather_facts: false
 
@@ -13,4 +13,11 @@
 
   roles:
     - kubeadm/master
+    - cni
     
+- hosts: nodes
+  become: true
+  gather_facts: true
+
+  roles:
+    - kubeadm/node
