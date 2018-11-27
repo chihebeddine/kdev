@@ -6,10 +6,13 @@
     - "{{ nginx_proxy_conf_dir }}"
 
 - name: Kubeadm | Node | Add temporary Iptables rule
-  shell: |
-    sysctl -w net.ipv4.conf.all.route_localnet=1
-    iptables -t nat -A POSTROUTING -m addrtype --src-type LOCAL --dst-type UNICAST -j MASQUERADE
-    iptables -t nat -A OUTPUT -o lo -d 127.0.0.1 -p tcp --dport 6443 -j DNAT  --to-destination {{ hostvars[groups['masters'][0]]['ansible_env']['COREOS_PRIVATE_IPV4'] }}:6443
+  command: sysctl -w net.ipv4.conf.all.route_localnet=1
+
+- name: Kubeadm | Node | Add temporary Iptables rule
+  command: iptables -t nat -A POSTROUTING -m addrtype --src-type LOCAL --dst-type UNICAST -j MASQUERADE
+    
+- name: Kubeadm | Node | Add temporary Iptables rule
+  command: iptables -t nat -A OUTPUT -o lo -d 127.0.0.1 -p tcp --dport 6443 -j DNAT  --to-destination {{ hostvars[groups['masters'][0]]['ansible_env']['COREOS_PRIVATE_IPV4'] }}:6443
 
 - name: Kubeadm | DELEGATED TO MASTERS | Generate join token
   shell: kubeadm token create --ttl 5m
@@ -34,10 +37,13 @@
   delegate_to: "{{ groups['masters'] | random(seed=inventory_hostname) }}"
 
 - name: Kubeadm | Node | Remove temporary Iptables rule
-  shell: |
-    sysctl -w net.ipv4.conf.all.route_localnet=0
-    iptables -t nat -D POSTROUTING -m addrtype --src-type LOCAL --dst-type UNICAST -j MASQUERADE
-    iptables -t nat -D OUTPUT -o lo -d 127.0.0.1 -p tcp --dport 6443 -j DNAT  --to-destination {{ hostvars[groups['masters'][0]]['ansible_env']['COREOS_PRIVATE_IPV4'] }}:6443
+  command: sysctl -w net.ipv4.conf.all.route_localnet=0
+
+- name: Kubeadm | Node | Remove temporary Iptables rule
+  command: iptables -t nat -D POSTROUTING -m addrtype --src-type LOCAL --dst-type UNICAST -j MASQUERADE
+    
+- name: Kubeadm | Node | Remove temporary Iptables rule
+  command: iptables -t nat -D OUTPUT -o lo -d 127.0.0.1 -p tcp --dport 6443 -j DNAT  --to-destination {{ hostvars[groups['masters'][0]]['ansible_env']['COREOS_PRIVATE_IPV4'] }}:6443
 
 - name: Kubeadm | Node | Add nginx-proxy config to manifests
   template:

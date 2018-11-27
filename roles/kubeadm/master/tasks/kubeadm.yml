@@ -8,6 +8,7 @@
   template:
     src: kubeadm-config.yml.j2
     dest: "{{ kubeadm_config_dir }}/kubeadm-config.yaml"
+  notify: restart kubelet
 
 - include_tasks: phase_certs.yml
 

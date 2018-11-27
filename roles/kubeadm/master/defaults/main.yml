@@ -7,6 +7,8 @@ cri_socket: /var/run/dockershim.sock
 
 kubeadm_taint_master: true
 
+kubernetes_bin_dir: /opt/bin
+
 kubeadm_config_dir: /root
 
 kubeadm_config_dirs:

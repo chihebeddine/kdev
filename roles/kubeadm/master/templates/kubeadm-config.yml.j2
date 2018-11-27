@@ -105,7 +105,7 @@ authorization:
 cgroupDriver: cgroupfs
 cgroupsPerQOS: true
 clusterDNS:
-  - 10.96.0.10
+  - 10.233.0.10
 clusterDomain: cluster.local
 configMapAndSecretChangeDetectionStrategy: Watch
 containerLogMaxFiles: 5
@@ -151,7 +151,7 @@ podPidsLimit: -1
 port: 10250
 registryBurst: 10
 registryPullQPS: 5
-resolvConf: /etc/resolv.conf
+resolvConf: /run/systemd/resolve/resolv.conf
 rotateCertificates: true
 runtimeRequestTimeout: 2m0s
 serializeImagePulls: true

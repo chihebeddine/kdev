@@ -10,10 +10,6 @@
 - hosts: masters
   become: true
   gather_facts: true
-
-  roles:
-    - kubeadm/master
-    - cni
     
 - hosts: nodes
   become: true

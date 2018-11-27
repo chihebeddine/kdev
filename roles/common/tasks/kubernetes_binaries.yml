@@ -24,6 +24,12 @@
     dest: "{{ kubeadm_systemd_dropin_file }}"
   notify: "restart kubelet"
 
+- name: add resolv.conf file
+  template:
+    src: resolv.conf
+    dest: "{{ kubernetes_bin_dir }}/resolv.conf"
+  notify: "restart kubelet"
+
 - name: Kubernetes | Ensure Kubelet is enabled and running
   systemd:
     state: started

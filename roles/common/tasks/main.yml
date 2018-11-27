@@ -6,6 +6,9 @@
     name: docker.service
     enabled: yes
 
+# - name: Resolv file
+#   shell: sudo systemd-resolve --set-domain=cluster.local --set-domain=default.svc.cluster.local --set-domain=svc.cluster.local --set-dns=10.233.0.10 --set-dns=8.8.4.4 --interface=docker0
+
 - include_tasks: cni.yml
 
 - include_tasks: crictl.yml
