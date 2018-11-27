@@ -13,7 +13,14 @@ nodeRegistration:
 ---
 apiVersion: kubeadm.k8s.io/v1alpha3
 certificatesDir: /etc/kubernetes/pki
-#apiServerCertSANs:
+apiServerCertSANs:
+  - {{ ansible_env.COREOS_PUBLIC_IPV4 }}
+  - {{ ansible_hostname }}
+  - {{ ansible_fqdn }}
+  - {{ inventory_hostname }}
+  - {{ ansible_env.COREOS_PRIVATE_IPV4 }}
+  - {{ ansible_env.COREOS_PUBLIC_IPV4 }}
+  - 127.0.0.1
 controlPlaneEndpoint: {{ ansible_env.COREOS_PRIVATE_IPV4 }}
 etcd:
   local:
