@@ -51,6 +51,12 @@ etcd:
 
 kind: ClusterConfiguration
 kubernetesVersion: {{ kubernetes_version }}
+{% if cloud_provider is defined %}
+apiServerExtraArgs:
+  cloud-provider: {{ cloud_provider }}
+controllerManagerExtraArgs:
+  cloud-provider: {{ cloud_provider }}
+{% endif %}
 networking:
   dnsDomain: {{ dns_domain | default('cluster.local') }}
   podSubnet: {{ pod_subnet | default('10.233.64.0/18') }}

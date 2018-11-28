@@ -21,7 +21,14 @@
 - name: Kubernetes | Copy Kubeadm drop-in file
   template:
     src: 10-kubeadm.conf
-    dest: "{{ kubeadm_systemd_dropin_file }}"
+    dest: "{{ kubeadm_systemd_dropin_dir }}/10-kubeadm.conf"
+  notify: "restart kubelet"
+
+- name: Kubernetes | Copy Kubeadm cloud drop-in file
+  template:
+    src: 20-cloud-provider.conf
+    dest: "{{ kubeadm_systemd_dropin_dir }}/20-cloud-provider.conf"
+  when: cloud_provider is defined
   notify: "restart kubelet"
 
 - name: add resolv.conf file

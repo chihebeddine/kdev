@@ -1,0 +1,5 @@
+---
+
+# Only aws is supported for the moment, view README for instructions on how to set up an aws cloud provider for kubernetes
+#cloud_provider: aws
+
